@@ -78,8 +78,8 @@ private:
     std::queue<int> m_event;
 
     bool m_able, m_visiable;
-    sf::RenderWindow* m_window;
     bool m_inbound;
+    sf::RenderWindow *m_window;
 
 };
 

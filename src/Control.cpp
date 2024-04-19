@@ -47,7 +47,19 @@ bool Control::isable() const { return m_able; }
 
 bool Control::isvisiable() const { return m_visiable; }
 
-sf::RenderWindow& Control::getRenderWindow() const { return *m_window; }
+sf::RenderWindow& Control::getRenderWindow() const
+{
+    if (m_window == nullptr)
+    {
+        NestView *ptrFather = const_cast<NestView*>(getViewFather());
+        if (ptrFather != nullptr)
+        {
+            Control *ptrControl = static_cast<Control*>(ptrFather);
+            return ptrControl->getRenderWindow();
+        }
+    }
+    return *m_window;
+}
 
 void Control::processEvent(const sf::Event& event)
 {
