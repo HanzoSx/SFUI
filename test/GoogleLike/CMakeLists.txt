@@ -7,6 +7,6 @@ aux_source_directory(./src SRC)
 add_library(${PROJECT_NAME} ${SRC})
 
 target_include_directories(${PROJECT_NAME} PUBLIC include)
-target_include_directories(${PROJECT_NAME} PUBLIC /home/hanzosx/workspace/SFUI/include)
+target_include_directories(${PROJECT_NAME} PUBLIC ../../include)
 target_link_libraries(${PROJECT_NAME} PUBLIC sfml-graphics sfml-window sfml-system)
 # target_link_libraries(${PROJECT_NAME} PUBLIC /home/hanzosx/workspace/SFUI/bin/SFUI)
