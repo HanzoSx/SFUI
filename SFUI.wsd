@@ -1,0 +1,34 @@
+@startuml 1
+
+class sf::Drawable {
+    + void draw()
+}
+class sf::RenderTarget
+class sf::View
+
+class Widget {
+}
+
+class Controller {
+}
+
+class Visual {
+}
+
+class NestView
+
+class Signal
+
+
+
+sf::View <-- NestView
+
+NestView <|-- Visual
+sf::Drawable <|-- Visual
+
+Controller <|-- Widget
+Visual <|-- Widget
+Component <|-- Widget
+
+
+@enduml

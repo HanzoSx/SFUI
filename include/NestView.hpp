@@ -1,67 +1,43 @@
-#ifndef SFUI_NEST_VIEW_HPP
-#define SFUI_NEST_VIEW_HPP
+#pragma once
 
-#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/View.hpp>
 
-namespace sfu
-{
+namespace sfu {
 
-
-class NestView
-{
+class NestView {
 public:
+    NestView();
+    NestView(const sf::Vector2f& position, const sf::Vector2f& size, 
+             const sf::Vector2f& offset = {0.f, 0.f});
 
-    NestView(
-        const sf::Vector2f& size = sf::Vector2f(0, 0),
-        const sf::Vector2f& position = sf::Vector2f(0, 0),
-        const sf::Vector2f& offset = sf::Vector2f(0, 0)
-    );
+    NestView(const NestView&) = default;
+    NestView(NestView&&) = default;
+    NestView& operator=(const NestView&) = default;
+    NestView& operator=(NestView&&) = default;
 
-    // 设置视口大小
-    void setViewSize(const sf::Vector2f& size);
-    //设置视口在纹理采样的起点（左上角）
-    void setViewOffset(const sf::Vector2f& offset);
-    // 设置视口在父级窗口的位置
-    void setViewPosition(const sf::Vector2f& position);
+    virtual ~NestView() = default;
 
-    // 设置父级窗口为空
-    void setViewFather();
-    // 设置父级窗口
-    void setViewFather(const NestView& father);
+    void setPosition(const sf::Vector2f& position);
+    void setSize(const sf::Vector2f& size);
+    void setOffset(const sf::Vector2f& offset);
 
-    // 获取当前视口的大小
-    const sf::Vector2f getViewLocalSize() const;
-    // 获取当前视口在纹理采样的起点
-    const sf::Vector2f getViewLocalOffset() const;
-    // 获取当前视口在父级窗口的位置
-    const sf::Vector2f getViewLocalPosition() const;
+    const sf::Vector2f& getPosition() const;
+    const sf::Vector2f& getSize() const;
+    const sf::Vector2f& getOffset() const;
+    // const sf::FloatRect getVisiableRect() const;
 
-    // 获取视口的全局大小
-    const sf::Vector2f getViewGlobalSize() const;
-    // 获取视口的全局在纹理采样的起点
-    const sf::Vector2f getViewGlobalOffset() const;
-    // 获取视口的全局位置
-    const sf::Vector2f getViewGlobalPosition() const;
+    NestView& operator* (const NestView& other) const;
 
-    // 获取父级窗口指针
-    const NestView* getViewFather() const;
-    // 获取全局视口在 target 下的 sf::View 格式
-    sf::View getGlobalView(const sf::RenderTarget& target) const;
+    const sf::View& getView() const;
+    operator sf::View() const;
 
-    // 获取视口在 window 下的光标位置在纹理中的像素坐标
-    sf::Vector2f getLocalCursorPos(const sf::RenderWindow& window) const;
-    // 获取视口在 window 下光标位置是否在视口内
-    bool inBound(const sf::RenderWindow& window) const;
-
-private:
+    void onParentChanged(NestView &parent);
     
-    const NestView* m_father;
-    sf::Vector2f m_size, m_position, m_offset;
-
+private:
+    sf::Vector2f m_position, m_size, m_offset;
+    mutable bool m_needUpdate;
+    mutable sf::Vector2f m_global_position, m_global_size, m_global_offset;
+    mutable sf::View m_view;
 };
 
-
-}
-
-
-#endif
+} // namespace sfu
